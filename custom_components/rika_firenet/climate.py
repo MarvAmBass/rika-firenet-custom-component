@@ -4,25 +4,23 @@ from homeassistant.components.climate import (
     ClimateEntity,
     HVACMode,
     ClimateEntityFeature,
-    PRESET_COMFORT,
-    PRESET_NONE,
     HVACAction,
 )
 
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 
-from .const import DOMAIN, SUPPORT_PRESET
+from .const import DOMAIN
 from .core import RikaFirenetCoordinator
 from .entity import RikaFirenetEntity
 
 _LOGGER = logging.getLogger(__name__)
 
-SUPPORT_FLAGS = ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON
+SUPPORT_FLAGS = ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON
 
 MIN_TEMP = 14
 MAX_TEMP = 28
 
-HVAC_MODES = [HVACMode.AUTO, HVACMode.HEAT, HVACMode.OFF]
+HVAC_MODES = [HVACMode.HEAT, HVACMode.OFF]
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up platform."""
@@ -62,16 +60,6 @@ class RikaFirenetStoveClimate(RikaFirenetEntity, ClimateEntity):
     @property
     def max_temp(self):
         return MAX_TEMP
-
-    @property
-    def preset_modes(self):
-        """Return a list of available preset modes."""
-        return SUPPORT_PRESET
-
-    @property
-    def preset_mode(self):
-        """Return the current preset mode, e.g., home, away, temp."""
-        return self._stove.get_preset_mode()
 
     @property
     def target_temperature(self):
@@ -117,10 +105,5 @@ class RikaFirenetStoveClimate(RikaFirenetEntity, ClimateEntity):
 
     async def async_set_hvac_mode(self, hvac_mode):
         _LOGGER.debug(f'set_hvac_mode() for {self.name}: {hvac_mode}')
-        self._stove.set_hvac_mode(str(hvac_mode)) # Modifies the "desired" state
-        await self.coordinator.async_request_refresh()
-
-    async def async_set_preset_mode(self, preset_mode):
-        """Set new preset mode."""
-        self._stove.set_preset_mode(preset_mode)
+        self._stove.set_hvac_mode(str(hvac_mode))
         await self.coordinator.async_request_refresh()

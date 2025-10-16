@@ -1,6 +1,3 @@
-from homeassistant.components.climate.const import (PRESET_COMFORT,
-                                                    PRESET_NONE)
-
 # Configuration
 CONF_ENABLED = "enabled"
 CONF_USERNAME = "username"
@@ -16,10 +13,6 @@ SENSOR = "sensor"
 SWITCH = "switch"
 NUMBER = "number"
 PLATFORMS = [CLIMATE, SENSOR, SWITCH, NUMBER]
-
-# Types
-
-SUPPORT_PRESET = [PRESET_NONE, PRESET_COMFORT]
 
 # API Endpoints
 BASE_URL = "https://www.rika-firenet.com"

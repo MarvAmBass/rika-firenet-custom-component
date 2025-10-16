@@ -369,12 +369,6 @@ class RikaFirenetStove:
     def set_stove_operation_mode(self, mode):
         self._set_control('operatingMode', int(mode))
 
-    def set_heating_times_active_for_comfort(self, active):
-        self._set_controls({
-            'onOff': True, # Assumed: changing heating times implies stove should be on or remain on
-            'heatingTimesActiveForComfort': bool(active)
-        })
-
     def set_room_power_request(self, power):
         self._set_control('RoomPowerRequest', int(power))
 
@@ -396,23 +390,32 @@ class RikaFirenetStove:
     def set_stove_on_off(self, on_off):
         self._set_control('onOff', bool(on_off))
 
-    def turn_heating_times_on(self): 
-        controls_to_set = {
-            'onOff': True,
+    def set_mode_manual(self):
+        self._set_control('operatingMode', 0)
+
+    def set_mode_comfort(self):
+        self._set_controls({
+            'operatingMode': 2,
             'heatingTimesActiveForComfort': True
-        }
-        if self.get_stove_operation_mode() != 2:
-            controls_to_set['operatingMode'] = 1
-        self._set_controls(controls_to_set)
+        })
+
+    def set_mode_auto(self):
+        self._set_control('operatingMode', 1)
+
+    def is_mode_manual(self):
+        return self.get_stove_operation_mode() == 0
+
+    def is_mode_comfort(self):
+        return self.get_stove_operation_mode() == 2
+
+    def is_mode_auto(self):
+        return self.get_stove_operation_mode() == 1
+
+    def turn_heating_times_on(self):
+        self._set_control('heatingTimesActiveForComfort', True)
 
     def turn_heating_times_off(self):
-        controls_to_set = {
-            'onOff': True, # The stove remains on, only the scheduled heating mode is deactivated
-            'heatingTimesActiveForComfort': False
-        }
-        if self.get_stove_operation_mode() != 2:
-            controls_to_set['operatingMode'] = 0 # Mode manuel
-        self._set_controls(controls_to_set)
+        self._set_control('heatingTimesActiveForComfort', False)
 
     def turn_convection_fan1_on_off(self, on_off=True):
         self._set_control('convectionFan1Active', bool(on_off))
@@ -509,15 +512,6 @@ class RikaFirenetStove:
         return self._state.get('controls', {}).get('operatingMode') if self._state else None
 
     def is_stove_heating_times_on(self):
-        op_mode = self.get_stove_operation_mode()
-        if op_mode == 1: # Auto mode is always considered "heating times on"
-            return True
-        if op_mode == 2: # Comfort mode depends on the specific flag
-            return self.is_heating_times_active_for_comfort()
-        # Covers op_mode 0 (Manual), None, or any other unexpected value
-        return False
-
-    def is_heating_times_active_for_comfort(self):
         return bool(self._state.get('controls', {}).get('heatingTimesActiveForComfort')) if self._state else False
 
     def get_room_power_request(self):
@@ -543,27 +537,8 @@ class RikaFirenetStove:
     def set_hvac_mode(self, hvac_mode):
         if hvac_mode == HVACMode.OFF:
             self.set_stove_on_off(False)
-        elif hvac_mode == HVACMode.AUTO:
-            _LOGGER.debug(f"Setting HVAC mode to AUTO for {self._id} (Turn heating times on)")
-            self.turn_heating_times_on()
         elif hvac_mode == HVACMode.HEAT:
-            _LOGGER.debug(f"Setting HVAC mode to HEAT for {self._id} (Turn heating times off / manual)")
-            self.turn_heating_times_off()
-
-    def set_preset_mode(self, preset_mode):
-        """Set the stove's operating mode based on a preset."""
-        _LOGGER.debug(f"Setting preset_mode for {self._id} to: {preset_mode}")
-        if preset_mode == PRESET_COMFORT:
-            # Comfort mode is operatingMode 2
-            self.set_stove_operation_mode(2)
-        else:  # PRESET_NONE
-            # PRESET_NONE implies manual control.
-            # If heating times are active, turn them off, which will switch to manual mode.
-            # Otherwise, just ensure we are in manual mode (0).
-            if self.is_stove_heating_times_on():
-                self.turn_heating_times_off()
-            else:
-                self.set_stove_operation_mode(0)
+            self.set_stove_on_off(True)
 
     def is_stove_convection_fan1_on(self):
         return bool(self._state.get('controls', {}).get('convectionFan1Active')) if self._state else False
@@ -611,12 +586,9 @@ class RikaFirenetStove:
                 return None
         return None
 
-    def get_hvac_mode(self): # Must be based on the current state
-        if not self.is_stove_on(): # Uses the method that checks self._state
+    def get_hvac_mode(self):
+        if not self.is_stove_on():
             return HVACMode.OFF
-        elif self.is_stove_heating_times_on(): # Uses the method that checks self._state
-            return HVACMode.AUTO
-        # If on but not in AUTO mode (scheduled), then it's HEAT (manual)
         return HVACMode.HEAT
 
     def get_hvac_action(self) -> HVACAction:
@@ -642,11 +614,6 @@ class RikaFirenetStove:
                 return HVACAction.OFF
             return HVACAction.IDLE # Other sub-states are standby
         return HVACAction.OFF # Default for unknown or off states
-
-    def get_preset_mode(self):
-        """Return the current preset mode."""
-        op_mode = self.get_stove_operation_mode()
-        return PRESET_COMFORT if op_mode == 2 else PRESET_NONE
 
     def is_stove_burning(self):
         return self.get_main_state() in [4, 5]

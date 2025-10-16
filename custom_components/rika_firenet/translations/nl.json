@@ -64,13 +64,19 @@
       "stove_climate": {
         "state": {
           "off": "Uit",
-          "heat": "Handmatig",
-          "auto": "Automatisch"
-        },
-        "preset_mode": {
-          "comfort": "Comfort",
-          "none": "Normaal"
+          "heat": "Verwarmen"
         }
+      }
+    },
+    "switch": {
+      "mode_manual": {
+        "name": "Modus Handmatig"
+      },
+      "mode_comfort": {
+        "name": "Modus Comfort"
+      },
+      "mode_auto": {
+        "name": "Modus Automatisch"
       }
     }
   }

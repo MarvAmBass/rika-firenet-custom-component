@@ -64,13 +64,19 @@
       "stove_climate": {
         "state": {
           "off": "Éteint",
-          "heat": "Manuel",
-          "auto": "Automatique"
-        },
-        "preset_mode": {
-          "comfort": "Confort",
-          "none": "Normal"
+          "heat": "Chauffage"
         }
+      }
+    },
+    "switch": {
+      "mode_manual": {
+        "name": "Mode Manuel"
+      },
+      "mode_comfort": {
+        "name": "Mode Confort"
+      },
+      "mode_auto": {
+        "name": "Mode Automatique"
       }
     }
   }
