@@ -31,7 +31,7 @@ DEFAULT_NAME = "RIKA"
 NAME = "Rika Firenet"
 
 UPDATE_LISTENER = "update_listener"
-ISSUE_URL = "https://github.com/antibill51/rika-firenet-custom-component/issues"
+ISSUE_URL = "https://github.com/MarvAmBass/rika-firenet-custom-component/issues"
 
 # Defaults
 STARTUP_MESSAGE = f"""

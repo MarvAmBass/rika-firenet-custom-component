@@ -1,12 +1,12 @@
 {
   "domain": "rika_firenet",
   "name": "Rika Firenet",
-  "codeowners": ["@Fockaert,@antibill51"],
+  "codeowners": ["@Fockaert", "@antibill51", "@MarvAmBass"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/antibill51/rika-firenet-custom-component/",
+  "documentation": "https://github.com/MarvAmBass/rika-firenet-custom-component/",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/antibill51/rika-firenet-custom-component/issues",
+  "issue_tracker": "https://github.com/MarvAmBass/rika-firenet-custom-component/issues",
   "requirements": [
     "bs4",
     "requests"

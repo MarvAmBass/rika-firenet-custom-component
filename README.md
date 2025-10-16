@@ -1,11 +1,36 @@
-# Rika Firenet (forked from Fockaert/rika-firenet-custom-component)
+# Rika Firenet - Enhanced Mode Support Fork
+
+> **This is a maintained fork** originally from [Fockaert](https://github.com/Fockaert/rika-firenet-custom-component),
+> significantly improved by [antibill51](https://github.com/antibill51/rika-firenet-custom-component) for multi-stove support,
+> and now enhanced by [MarvAmBass](https://github.com/MarvAmBass/rika-firenet-custom-component) with focus on improved
+> mode handling and HomeKit integration.
+
+## What Makes This Fork Different?
+
+This fork focuses on providing an excellent Home Assistant and HomeKit experience:
+
+- **✨ Enhanced Mode Control**: Clean select entities for Manual/Automatic/Comfort modes
+- **🏠 HomeKit Integration Focus**: Optimized for seamless Apple Home app integration
+- **🎛️ Climate Auto Mode**: Smart mode switching with configurable preferences
+- **🔥 Multi-Stove Support**: Inherited from antibill51's excellent work
+- **🔮 Future Plans**: Fan entity support for MultiAir stoves (coming soon)
+
+## Thank You
+
+A huge thank you to the original authors:
+- **[Fockaert](https://github.com/Fockaert)** - For creating the original integration
+- **[antibill51](https://github.com/antibill51)** - For the extensive improvements and multi-stove support
+
+Without their excellent work, this fork wouldn't have been possible!
+
+---
 
 _Component to integrate with Rika Firenet [rikafirenet]._
 
 ## Installation
 
 Use [hacs](https://hacs.xyz/). (Recommended method)
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=antibill51&repository=rika-firenet-custom-component)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=MarvAmBass&repository=rika-firenet-custom-component)
 
 or:
 
@@ -21,7 +46,7 @@ or:
 
 ## Lovelace: 
 
-![alt text](https://raw.githubusercontent.com/antibill51/rika-firenet-custom-component/main/Screenshot/capture.png)
+![alt text](https://raw.githubusercontent.com/MarvAmBass/rika-firenet-custom-component/main/Screenshot/capture.png)
 
 ### HA config :
 ```yaml
@@ -392,6 +417,14 @@ utility_meter:
     cycle: monthly
 ```
 
+## Roadmap
+
+- [x] Enhanced mode switching with select entities
+- [x] Climate AUTO mode with smart mode detection
+- [x] HomeKit-optimized integration
+- [ ] Fan entity support for MultiAir stoves
+- [ ] Further HomeKit improvements
+
 ## Contributions are welcome!
 
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
@@ -400,6 +433,6 @@ Si besoin, les échanges en français sont également acceptés.
 
 ***
 
-[rikafirenet]: https://github.com/antibill51/rika-firenet-custom-component
+[rikafirenet]: https://github.com/MarvAmBass/rika-firenet-custom-component
 [forum]: https://community.home-assistant.io/
-[releases]: https://github.com/antibill51/rika-firenet-custom-component/releases
+[releases]: https://github.com/MarvAmBass/rika-firenet-custom-component/releases
