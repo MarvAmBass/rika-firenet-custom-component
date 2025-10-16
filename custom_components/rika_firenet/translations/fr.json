@@ -26,7 +26,8 @@
           "climate": "Climate activé",
           "sensor": "Sensor activé",
           "switch": "Switch activé",
-          "number": "Number activé"
+          "number": "Number activé",
+          "select": "Select activé"
         }
       }
     }
@@ -64,19 +65,27 @@
       "stove_climate": {
         "state": {
           "off": "Éteint",
-          "heat": "Chauffage"
+          "heat": "Chauffage",
+          "auto": "Automatique"
         }
       }
     },
-    "switch": {
-      "mode_manual": {
-        "name": "Mode Manuel"
+    "select": {
+      "operating_mode": {
+        "name": "Mode de fonctionnement",
+        "state": {
+          "manual": "Manuel",
+          "automatic": "Automatique",
+          "comfort": "Confort"
+        }
       },
-      "mode_comfort": {
-        "name": "Mode Confort"
-      },
-      "mode_auto": {
-        "name": "Mode Automatique"
+      "auto_mode_preference": {
+        "name": "Préférence mode automatique",
+        "state": {
+          "manual": "Manuel",
+          "automatic": "Automatique",
+          "comfort": "Confort"
+        }
       }
     }
   }

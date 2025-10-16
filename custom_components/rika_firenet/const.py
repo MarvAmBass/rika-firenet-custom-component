@@ -12,7 +12,8 @@ CLIMATE = "climate"
 SENSOR = "sensor"
 SWITCH = "switch"
 NUMBER = "number"
-PLATFORMS = [CLIMATE, SENSOR, SWITCH, NUMBER]
+SELECT = "select"
+PLATFORMS = [CLIMATE, SENSOR, SWITCH, NUMBER, SELECT]
 
 # API Endpoints
 BASE_URL = "https://www.rika-firenet.com"

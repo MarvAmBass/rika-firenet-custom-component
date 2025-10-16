@@ -13,24 +13,6 @@ SWITCH_CONFIG = {
         "turn_off": ("set_stove_on_off", False),
         "icon": "hass:power",
     },
-    "mode manual": {
-        "is_on": "is_mode_manual",
-        "turn_on": ("set_mode_manual",),
-        "turn_off": None,
-        "icon": "mdi:hand-back-right",
-    },
-    "mode comfort": {
-        "is_on": "is_mode_comfort",
-        "turn_on": ("set_mode_comfort",),
-        "turn_off": None,
-        "icon": "mdi:sofa",
-    },
-    "mode auto": {
-        "is_on": "is_mode_auto",
-        "turn_on": ("set_mode_auto",),
-        "turn_off": None,
-        "icon": "mdi:thermostat-auto",
-    },
     "heating times": {
         "is_on": "is_stove_heating_times_on",
         "turn_on": ("turn_heating_times_on",),
@@ -48,7 +30,7 @@ SWITCH_CONFIG = {
     "convection fan2": {"is_on": "is_stove_convection_fan2_on", "turn_on": ("turn_convection_fan2_on_off", True), "turn_off": ("turn_convection_fan2_on_off", False), "icon": "hass:fan"},
 }
 
-BASE_DEVICE_SWITCHES = ["on off", "mode manual", "mode comfort", "mode auto", "heating times", "frost protection"]
+BASE_DEVICE_SWITCHES = ["on off", "heating times", "frost protection"]
 
 def get_switch_device_list(stove: RikaFirenetStove) -> list[str]:
     """Return the list of switch entities for a given stove."""

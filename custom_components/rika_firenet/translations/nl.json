@@ -26,7 +26,8 @@
           "climate": "Klimaat ingeschakeld",
           "sensor": "Sensor ingeschakeld",
           "switch": "Schakelaar ingeschakeld",
-          "number": "Nummer ingeschakeld"
+          "number": "Nummer ingeschakeld",
+          "select": "Selectie ingeschakeld"
         }
       }
     }
@@ -64,19 +65,27 @@
       "stove_climate": {
         "state": {
           "off": "Uit",
-          "heat": "Verwarmen"
+          "heat": "Verwarmen",
+          "auto": "Automatisch"
         }
       }
     },
-    "switch": {
-      "mode_manual": {
-        "name": "Modus Handmatig"
+    "select": {
+      "operating_mode": {
+        "name": "Bedrijfsmodus",
+        "state": {
+          "manual": "Handmatig",
+          "automatic": "Automatisch",
+          "comfort": "Comfort"
+        }
       },
-      "mode_comfort": {
-        "name": "Modus Comfort"
-      },
-      "mode_auto": {
-        "name": "Modus Automatisch"
+      "auto_mode_preference": {
+        "name": "Auto-modus voorkeur",
+        "state": {
+          "manual": "Handmatig",
+          "automatic": "Automatisch",
+          "comfort": "Comfort"
+        }
       }
     }
   }
