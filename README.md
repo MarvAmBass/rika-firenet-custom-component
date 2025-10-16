@@ -1,7 +1,7 @@
 # Rika Firenet - Enhanced Mode Support Fork
 
 > **This is a maintained fork** originally from [Fockaert](https://github.com/Fockaert/rika-firenet-custom-component),
-> significantly improved by [antibill51](https://github.com/antibill51/rika-firenet-custom-component) for multi-stove support,
+> significantly improved by [antibill51](https://github.com/antibill51/rika-firenet-custom-component) for multi-stove support and much more,
 > and now enhanced by [MarvAmBass](https://github.com/MarvAmBass/rika-firenet-custom-component) with focus on improved
 > mode handling and HomeKit integration.
 
@@ -436,3 +436,4 @@ Si besoin, les échanges en français sont également acceptés.
 [rikafirenet]: https://github.com/MarvAmBass/rika-firenet-custom-component
 [forum]: https://community.home-assistant.io/
 [releases]: https://github.com/MarvAmBass/rika-firenet-custom-component/releases
+
