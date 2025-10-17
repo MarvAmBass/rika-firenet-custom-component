@@ -417,11 +417,27 @@ utility_meter:
     cycle: monthly
 ```
 
+## Key Improvements in This Fork
+
+### Fixed: Comfort Mode Auto-Restart
+Previous versions had a bug where the stove would completely turn OFF instead of going to standby after reaching target temperature in Comfort/Automatic mode. This broke the auto-restart functionality - the stove wouldn't restart when temperature dropped.
+
+**Root cause:** Unnecessary restart logic in the coordinator that forced `onOff=False` during burn-off phase (main_state=6), preventing the stove from entering standby mode for auto-restart.
+
+**Solution:** Removed the problematic restart logic. The stove now properly manages its own state transitions through the official API:
+- ✅ Heats to target temperature
+- ✅ Enters burn-off phase to finish pellets
+- ✅ Goes to standby (not OFF)
+- ✅ Auto-restarts when temperature drops below target
+
+Error states are still properly reported and must be handled manually at the stove as designed.
+
 ## Roadmap
 
 - [x] Enhanced mode switching with select entities
 - [x] Climate AUTO mode with smart mode detection
 - [x] HomeKit-optimized integration
+- [x] Fixed Comfort/Auto mode auto-restart functionality
 - [ ] Fan entity support for MultiAir stoves
 - [ ] Further HomeKit improvements
 
