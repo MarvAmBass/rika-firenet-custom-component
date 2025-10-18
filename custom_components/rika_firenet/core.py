@@ -389,10 +389,7 @@ class RikaFirenetStove:
         self._set_control('operatingMode', 0)
 
     def set_mode_comfort(self):
-        self._set_controls({
-            'operatingMode': 2,
-            'heatingTimesActiveForComfort': True
-        })
+        self._set_control('operatingMode', 2)
 
     def set_mode_auto(self):
         self._set_control('operatingMode', 1)

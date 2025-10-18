@@ -432,12 +432,22 @@ Previous versions had a bug where the stove would completely turn OFF instead of
 
 Error states are still properly reported and must be handled manually at the stove as designed.
 
+### Fixed: Heating Times Manual Control
+Previous versions automatically enabled heating times whenever switching to Comfort mode, overriding user preferences and making the heating times switch ineffective.
+
+**Solution:** Removed automatic heating times activation from `set_mode_comfort()`. Heating times are now fully controlled by the dedicated switch:
+- ✅ Switching to Comfort mode no longer auto-enables heating times
+- ✅ User has full manual control via the heating times switch
+- ✅ Heating times setting persists across mode changes
+- ✅ Expected behavior - mode and heating times are independent controls
+
 ## Roadmap
 
 - [x] Enhanced mode switching with select entities
 - [x] Climate AUTO mode with smart mode detection
 - [x] HomeKit-optimized integration
 - [x] Fixed Comfort/Auto mode auto-restart functionality
+- [x] Fixed heating times manual control (no auto-activation)
 - [ ] Fan entity support for MultiAir stoves
 - [ ] Further HomeKit improvements
 
