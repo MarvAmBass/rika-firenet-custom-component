@@ -113,18 +113,47 @@ class RikaFirenetStoveClimate(RikaFirenetEntity, ClimateEntity):
             await self.coordinator.async_request_refresh()
 
         elif hvac_mode == HVACMode.HEAT:
-            # Set to manual mode and turn on
-            current_mode = self._stove.get_stove_operation_mode()
+            # Get the preferred mode from the manual mode preference select
+            manual_pref_entity_id = f"select.{self._stove.get_name().lower().replace(' ', '_')}_manual_mode_preference"
+            manual_pref_state = self.hass.states.get(manual_pref_entity_id)
 
-            if current_mode != 0:  # Not in manual mode
-                _LOGGER.debug(f'Switching to manual mode before turning on')
-                self._stove.set_mode_manual()
+            if manual_pref_state and manual_pref_state.state:
+                preferred_mode_str = manual_pref_state.state
+                _LOGGER.debug(f'Manual mode preference: {preferred_mode_str}')
+
+                # Map preference to mode value
+                mode_map = {"Manual": 0, "Automatic": 1, "Comfort": 2}
+                preferred_mode = mode_map.get(preferred_mode_str, 0)  # Default to Manual
+
+                current_mode = self._stove.get_stove_operation_mode()
+
+                if current_mode != preferred_mode:
+                    _LOGGER.debug(f'Switching to {preferred_mode_str} mode before turning on')
+
+                    if preferred_mode == 0:
+                        self._stove.set_mode_manual()
+                    elif preferred_mode == 1:
+                        self._stove.set_mode_auto()
+                    elif preferred_mode == 2:
+                        self._stove.set_mode_comfort()
+
+                    await self.coordinator.async_request_refresh()
+                    await asyncio.sleep(1)
+
+                # Turn on the stove
+                self._stove.set_stove_on_off(True)
                 await self.coordinator.async_request_refresh()
-                await asyncio.sleep(1)
+            else:
+                _LOGGER.warning(f'Could not get manual mode preference, defaulting to Manual mode')
+                current_mode = self._stove.get_stove_operation_mode()
 
-            # Turn on the stove
-            self._stove.set_stove_on_off(True)
-            await self.coordinator.async_request_refresh()
+                if current_mode != 0:
+                    self._stove.set_mode_manual()
+                    await self.coordinator.async_request_refresh()
+                    await asyncio.sleep(1)
+
+                self._stove.set_stove_on_off(True)
+                await self.coordinator.async_request_refresh()
 
         elif hvac_mode == HVACMode.AUTO:
             # Get the preferred mode from the auto mode preference select

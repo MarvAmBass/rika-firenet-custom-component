@@ -29,6 +29,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     for stove in coordinator.get_stoves():
         select_entities.append(RikaFirenetOperatingModeSelect(entry, stove, coordinator))
         select_entities.append(RikaFirenetAutoModePreferenceSelect(entry, stove, coordinator))
+        select_entities.append(RikaFirenetManualModePreferenceSelect(entry, stove, coordinator))
 
     if select_entities:
         async_add_entities(select_entities, True)
@@ -126,5 +127,50 @@ class RikaFirenetAutoModePreferenceSelect(RikaFirenetEntity, RestoreEntity, Sele
         if last_state and last_state.state in OPERATING_MODE_OPTIONS:
             self._current_option = last_state.state
             _LOGGER.debug(f"Restored auto mode preference to {self._current_option}")
+        else:
+            _LOGGER.debug(f"No previous state found, using default: {self._current_option}")
+
+
+class RikaFirenetManualModePreferenceSelect(RikaFirenetEntity, RestoreEntity, SelectEntity):
+    """Select entity for climate manual/heat mode preference."""
+
+    def __init__(self, config_entry, stove: RikaFirenetStove, coordinator: RikaFirenetCoordinator):
+        super().__init__(config_entry, stove, coordinator, "manual_mode_preference")
+        self._attr_translation_key = "manual_mode_preference"
+        self._current_option = "Manual"  # Default value
+
+    @property
+    def options(self):
+        """Return the list of available options."""
+        return OPERATING_MODE_OPTIONS
+
+    @property
+    def current_option(self):
+        """Return the current selected option."""
+        return self._current_option
+
+    @property
+    def icon(self):
+        """Return the icon."""
+        return "mdi:hand-back-right"
+
+    async def async_select_option(self, option: str):
+        """Change the selected option."""
+        if option not in OPERATING_MODE_OPTIONS:
+            _LOGGER.error(f"Invalid option: {option}")
+            return
+
+        _LOGGER.info(f"Setting manual mode preference to {option} for stove {self._stove.get_name()}")
+        self._current_option = option
+        self.async_write_ha_state()
+
+    async def async_added_to_hass(self):
+        """Restore last state when entity is added to hass."""
+        await super().async_added_to_hass()
+
+        last_state = await self.async_get_last_state()
+        if last_state and last_state.state in OPERATING_MODE_OPTIONS:
+            self._current_option = last_state.state
+            _LOGGER.debug(f"Restored manual mode preference to {self._current_option}")
         else:
             _LOGGER.debug(f"No previous state found, using default: {self._current_option}")

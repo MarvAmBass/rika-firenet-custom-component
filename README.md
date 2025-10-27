@@ -441,10 +441,34 @@ Previous versions automatically enabled heating times whenever switching to Comf
 - ✅ Heating times setting persists across mode changes
 - ✅ Expected behavior - mode and heating times are independent controls
 
+### Mode Preference System for AI Assistants
+To prevent AI assistants and voice controls from unintentionally changing the stove's operating mode, this fork includes configurable mode preferences for the climate entity.
+
+**Two preference select entities per stove:**
+- **Manual Mode Preference** (`select.{stove_name}_manual_mode_preference`)
+  - Controls behavior when climate entity is set to `HEAT` mode
+  - Default: Manual
+  - Options: Manual, Automatic, or Comfort
+
+- **Auto Mode Preference** (`select.{stove_name}_auto_mode_preference`)
+  - Controls behavior when climate entity is set to `AUTO` mode
+  - Default: Automatic
+  - Options: Manual, Automatic, or Comfort
+
+**How it works:**
+- When you (or an AI assistant) sets the climate entity to HEAT, it uses the Manual Mode Preference setting
+- When you (or an AI assistant) sets the climate entity to AUTO, it uses the Auto Mode Preference setting
+- Both preferences persist across restarts
+- You can still use the Operating Mode select entity for direct control
+
+**Example use case:**
+Set Manual Mode Preference to "Comfort" so when an AI assistant responds to "turn on the heater", it activates Comfort mode instead of Manual mode, preventing unintentional mode changes while still allowing voice control.
+
 ## Roadmap
 
 - [x] Enhanced mode switching with select entities
 - [x] Climate AUTO mode with smart mode detection
+- [x] Mode preference system for AI assistants (prevents unintentional mode changes)
 - [x] HomeKit-optimized integration
 - [x] Fixed Comfort/Auto mode auto-restart functionality
 - [x] Fixed heating times manual control (no auto-activation)
